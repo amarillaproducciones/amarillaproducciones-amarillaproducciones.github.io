@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/logo.jpg">
+    <link rel="apple-touch-icon" href="img/logo.jpg">
+    <title>Linda Amarilla Music</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html"><img width="30px" class="redondeado" src="img/logo.jpg">Amarilla Producciones</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Inicio</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content container">
+        <h2 class="mb-4">Playlists <span class="texto-neon">Linda Amarilla</span></h2>
+        <div class="playlist">
+            <div class="playlist-item">
+                <a href="#" class="playlist-link">
+                    <img src="img/logo.jpg" alt="Top Temas">
+                    <p>Top Temas</p>
+                </a>
+            </div>
+            <div class="playlist-item">
+                <a href="#" class="playlist-link">
+                    <img src="img/obrasindustriales2.jpeg" alt="Obras Industriales 2">
+                    <p>Obras Industriales 2</p>
+                </a>
+            </div>
+            <div class="playlist-item">
+                <a href="#" class="playlist-link">
+                    <img src="img/obrasindustriales1.jpeg" alt="Obras Industriales 1">
+                    <p>Obras Industriales 1</p>
+                </a>
+            </div>
+            <div class="playlist-item">
+                <a href="#" class="playlist-link">
+                    <img src="img/newera.jpeg" alt="Linda Amarilla New Era">
+                    <p>Linda Amarilla New Era</p>
+                </a>
+            </div>
+        </div>
+
+        <div class="container" id="song-list-container" style="display: none;">
+            <h3 id="playlist-title"></h3>
+            <ul id="song-list" class="list-group mb-5"></ul>
+        </div>
+    </div>
+
+    <footer>
+        <!-- Barra de progreso -->
+        <div id="progress-bar-container">
+            <div id="progress-bar"></div>
+        </div>
+        <!-- Duración de la canción y tiempo actual -->
+        <div id="song-time" class="text-white mb-3">
+            <span id="current-time">00:00</span> / <span id="duration-time">00:00</span>
+        </div>
+        <div class="player-controls">
+            <button onclick="playPrev()">⏮</button>
+            <button onclick="togglePlay()">▶⏸</button>
+            <button onclick="playNext()">⏭</button>
+        </div>
+    </footer>
+
+    <audio id="audio-player" src="" preload="auto"></audio>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

